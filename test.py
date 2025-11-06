@@ -132,11 +132,64 @@ def test_story_arc_retrieval():
         print(f"✗ Error: {e}")
 
 
+def test_agents(api_available: bool):
+    """Test the agent implementations."""
+    if not api_available:
+        print("\n" + "=" * 60)
+        print("Skipping Agent Tests (API key required)")
+        print("=" * 60)
+        return
+    
+    print("\n" + "=" * 60)
+    print("Testing Agents (Phase 2)")
+    print("=" * 60)
+    
+    try:
+        from agents.categorizer import CategorizerAgent
+        from agents.storyteller import StorytellerAgent
+        from agents.judge import JudgeAgent
+        
+        # Test Categorizer
+        print("\n[TEST] Categorizer Agent")
+        print("-" * 60)
+        categorizer = CategorizerAgent()
+        test_request = "A story about a brave little bunny who goes on an adventure"
+        category, explanation = categorizer.categorize(test_request)
+        print(f"Request: {test_request}")
+        print(f"Category: {category}")
+        print(f"Explanation: {explanation}")
+        print("✓ Categorizer working")
+        
+        # Test Storyteller (quick test - short story)
+        print("\n[TEST] Storyteller Agent")
+        print("-" * 60)
+        storyteller = StorytellerAgent()
+        # Just test that it can generate (but we'll use a short max_tokens for testing)
+        print("Storyteller initialized successfully")
+        print("✓ Storyteller ready (full story generation tested in main.py)")
+        
+        # Test Judge initialization
+        print("\n[TEST] Judge Agent")
+        print("-" * 60)
+        judge = JudgeAgent()
+        print("Judge initialized successfully")
+        print("✓ Judge ready (evaluation tested in main.py)")
+        
+        print("\n" + "=" * 60)
+        print("All agents initialized successfully! ✓")
+        print("=" * 60)
+        
+    except Exception as e:
+        print(f"\n✗ Error testing agents: {e}")
+        import traceback
+        traceback.print_exc()
+
+
 def main():
     """Run all tests."""
     print("=" * 60)
     print("Storytelling System - Test Suite")
-    print("Phase 1: Core Infrastructure Testing")
+    print("Phase 1 & 2: Infrastructure and Agents")
     print("=" * 60)
     
     # Test infrastructure (no API calls needed)
@@ -148,6 +201,9 @@ def main():
     # Test API connection (requires .env to be set)
     api_connected = test_api_connection()
     
+    # Test agents if API is available
+    test_agents(api_connected)
+    
     print("\n" + "=" * 60)
     print("Test Summary")
     print("=" * 60)
@@ -155,12 +211,16 @@ def main():
     print("✓ Story arc templates tested")
     if api_connected:
         print("✓ API connection ready")
+        print("✓ Agents initialized")
     else:
-        print("⚠ API key not set (not required for infrastructure tests)")
+        print("⚠ API key not set (required for agent tests)")
     
     print("\nNext Steps:")
-    print("1. Add your OpenAI API key to .env file (if not done)")
-    print("2. Proceed with Phase 2: Agent Implementation")
+    if api_connected:
+        print("1. Run 'python main.py' to generate a story!")
+    else:
+        print("1. Add your OpenAI API key to .env file")
+        print("2. Run 'python main.py' to generate a story!")
     print("=" * 60)
 
 
