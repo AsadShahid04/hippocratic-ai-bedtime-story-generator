@@ -1,29 +1,26 @@
-import os
-import openai
+"""
+Main entry point for the storytelling system.
+
+This system uses multiple agents (categorizer, storyteller, judge) to create
+high-quality, age-appropriate bedtime stories for children ages 5-10.
+"""
 
 """
 Before submitting the assignment, describe here in a few sentences what you would have built next if you spent 2 more hours on this project:
 
 """
 
-def call_model(prompt: str, max_tokens=3000, temperature=0.1) -> str:
-    openai.api_key = os.getenv("OPENAI_API_KEY") # please use your own openai api key here.
-    resp = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}],
-        stream=False,
-        max_tokens=max_tokens,
-        temperature=temperature,
-    )
-    return resp.choices[0].message["content"]  # type: ignore
-
-example_requests = "A story about a girl named Alice and her best friend Bob, who happens to be a cat."
-
 
 def main():
-    user_input = input("What kind of story do you want to hear? ")
-    response = call_model(user_input)
-    print(response)
+    """
+    Main entry point for the storytelling application.
+    
+    This will be expanded in later phases to include the full multi-agent system.
+    """
+    print("Welcome to the Storytelling System!")
+    print("This is the main application entry point.")
+    print("\nRun 'python test.py' to test the infrastructure.")
+    print("The full storytelling system will be implemented in the next phases.")
 
 
 if __name__ == "__main__":
